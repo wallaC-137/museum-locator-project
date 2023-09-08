@@ -1,9 +1,11 @@
 package com.betrybe.museumfinder.controller;
 
 import com.betrybe.museumfinder.dto.MuseumCreationDto;
+import com.betrybe.museumfinder.dto.MuseumDto;
 import com.betrybe.museumfinder.model.Coordinate;
 import com.betrybe.museumfinder.model.Museum;
 import com.betrybe.museumfinder.service.MuseumServiceInterface;
+import com.betrybe.museumfinder.util.ModelDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +44,12 @@ public class MuseumController {
    */
   @PostMapping
   public ResponseEntity<Museum> newMuseum(
-      @RequestBody Museum newMuseum) {
-    this.museumServiceInterface.createMuseum(newMuseum);
+      @RequestBody MuseumCreationDto newMuseum) {
+    Museum museum = ModelDtoConverter.dtoToModel(newMuseum);
+
+    this.museumServiceInterface.createMuseum(museum);
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(newMuseum);
+        .body(museum);
   }
 
 
